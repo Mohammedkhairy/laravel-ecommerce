@@ -1,4 +1,7 @@
 @extends('backend.layout.app')
+@section('title')
+    HomePage
+@endsection
 @section('content')
 @component('backend.layout.navbar' , ['page_title' => 'HomePage']) 
 
