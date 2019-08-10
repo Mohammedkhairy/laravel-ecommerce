@@ -46,7 +46,9 @@
   <script src="/assets/demo/demo.js"></script>
   <script>
     $(document).ready(function() {
+
       $().ready(function() {
+        
         $sidebar = $('.sidebar');
 
         $sidebar_img_container = $sidebar.find('.sidebar-background');
