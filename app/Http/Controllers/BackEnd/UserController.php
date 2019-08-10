@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Http\Requests\usersStoreRequesrt;
-use App\Http\Requests\usersUpdateRequesrt;
+use App\Http\Requests\BackEnd\Users\usersStoreRequest;
+use App\Http\Requests\BackEnd\Users\usersUpdateRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends BackEndController
@@ -15,60 +14,35 @@ class UserController extends BackEndController
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function __construct(User $model)
     {
-        $users = User::paginate(10);
-        return view('backend.users.index', compact('users'));
+        parent::__construct($model);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    protected function filters($rows)
     {
-        return view('backend.users.create');
+        $conditions = [];
+        $availableFilter = ['name', 'email', 'created_at'];
+        foreach (request()->toArray() as $key => $value) {
+            if (in_array($key, $availableFilter)) {
+                $conditions[$key] = $value;
+            }
+        }
+        return $rows = $rows->where($conditions);
     }
-
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(usersStoreRequesrt $request)
+    public function store(usersStoreRequest $request)
     {
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $data = $request->all();
+        $data['password'] = Hash::make($data['password']);
+        $users = $this->model->create($data);
         return redirect()->back();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $user = User::findOrFail($id);
-        return view('backend.users.edit', compact('user'));
-
     }
 
     /**
@@ -78,31 +52,16 @@ class UserController extends BackEndController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(usersUpdateRequesrt $request, $id)
+    public function update(usersUpdateRequest $request, $id)
     {
-        $user = User::findOrFail($id);
-        $userData = [
-            'name' => $request->name,
-            'email' => $request->email,
-        ];
+        $user = $this->model->findOrFail($id);
+        $data = $request->all();
         if ($request->has($request->password) && !empty($request->password)) {
-            $userData = $userData + ['password' => Hash::make($request->password)];
+            $data['password'] = Hash::make($data['password']);
+        } else {
+            unset($data['password']);
         }
-        $user->update($userData);
+        $user->update($data);
         return redirect()->back();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-        return redirect()->back();
-
     }
 }

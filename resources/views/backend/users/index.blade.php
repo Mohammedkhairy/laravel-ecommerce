@@ -46,7 +46,7 @@ $tableDescription = "Here You Can Add / Edit / Delete ".$title;
                             <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
-                            <td>{{$user->created_at}}</td>
+                              <td>{{\Carbon\Carbon::parse($user->created_at)->diffForHumans()}}</td>
                             <td class="td-actions ">
                                 <a href="{{ route('users.edit' , ['id' => $user->id]) }}" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Edit {{ $Model_name}}">
                                     <i class="material-icons">edit</i>

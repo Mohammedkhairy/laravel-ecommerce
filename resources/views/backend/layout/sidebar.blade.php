@@ -5,16 +5,22 @@
       Tip 2: you can also add an image using data-image tag
      -->
       <div class="logo">
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+        <a href="/admin/" class="simple-text logo-normal">
           Creative Tim
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active  ">
-            <a class="nav-link" href="javascript:void(0)">
+            <a class="nav-link" href="/admin/">
               <i class="material-icons">dashboard</i>
               <p>Dashboard</p>
+            </a>
+          </li>
+          <li class="nav-item active  ">
+            <a class="nav-link" href="/admin/users">
+              <i class="material-icons">dashboard</i>
+              <p>Users</p>
             </a>
           </li>
           <!-- your sidebar here -->
