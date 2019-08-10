@@ -1,11 +1,5 @@
 @extends('backend.layout.app')
 
-@php
-$title = 'Users';
-$Model_name = 'User';
-$page_title = $title.' Control';
-$tableDescription = "Here You Can Add / Edit / Delete ".$title;
-@endphp
 
 @section('title')
     {{$page_title}}

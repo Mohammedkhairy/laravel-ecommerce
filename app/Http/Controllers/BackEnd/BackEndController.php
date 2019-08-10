@@ -25,11 +25,15 @@ class BackEndController extends Controller
 
     public function index()
     {
+        $title = $this->getViewFolderNamePlural($this->model);
+        $Model_name = $this->getViewFolderNameSingle($this->model);
+        $page_title = $title . ' Control';
+        $tableDescription = "Here You Can Add / Edit / Delete " . $title;
         $modelName = $this->getViewFolderNamePlural($this->model);
         $rows = $this->model;
         $rows = $this->filters($rows);
         ${$this->getViewFolderNamePlural($this->model)} = $rows->paginate(10);
-        return view('backend.' . $modelName . '.index', compact($modelName));
+        return view('backend.' . $modelName . '.index', compact($modelName, 'title', 'page_title', 'tableDescription', 'Model_name'));
     }
 
     /**
@@ -39,7 +43,14 @@ class BackEndController extends Controller
      */
     public function create()
     {
-        return view('backend.' . $this->getViewFolderNamePlural($this->model) . '.create');
+        $title = $this->getViewFolderNamePlural($this->model);
+        $Model_name = $this->getViewFolderNameSingle($this->model);
+        $page_title = 'Create ' . $title;
+        $button_name = " Add " . $Model_name;
+        $tableDescription = "Here You Can  Create " . $title;
+        return view('backend.' . $this->getViewFolderNamePlural($this->model) . '.create',
+            compact('title', 'page_title', 'tableDescription', 'Model_name', 'button_name')
+        );
     }
 
     /**
@@ -50,9 +61,15 @@ class BackEndController extends Controller
      */
     public function edit($id)
     {
+        $title = $this->getViewFolderNamePlural($this->model);
+        $Model_name = $this->getViewFolderNameSingle($this->model);
+        $page_title = 'Edit ' . $title;
+        $button_name = " update " . $Model_name;
+        $tableDescription = "Here You Can  Edit " . $title;
         $modelName = $this->getViewFolderNamePlural($this->model);
         ${$this->getViewFolderNameSingle($this->model)} = $this->model::findOrFail($id);
-        return view('backend.' . $modelName . '.edit', compact($this->getViewFolderNameSingle($this->model)));
+        return view('backend.' . $modelName . '.edit',
+            compact($this->getViewFolderNameSingle($this->model), 'button_name', 'title', 'page_title', 'tableDescription', 'Model_name'));
 
     }
 
@@ -68,7 +85,6 @@ class BackEndController extends Controller
         return redirect()->back();
 
     }
-
 
     protected function filters($rows)
     {

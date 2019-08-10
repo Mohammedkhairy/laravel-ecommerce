@@ -24,16 +24,16 @@ class usersUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$this->user,
+            'name' => 'required|string|max:191',
+            'email' => 'required|string|email|max:191|unique:users,email,'.$this->user,
             'password' => 'nullable|string|min:8'
         ];
     }
 
     public function messages(){
         return [
-           'name' => 'this is required',
-           'email' => 'this is required',
+        //    'name' => 'this is required',
+        //    'email' => 'this is required',
         ];
     }
 }

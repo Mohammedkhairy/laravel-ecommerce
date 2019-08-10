@@ -12,5 +12,9 @@
  */
 
 Route::namespace ('Api\Users')->group(function () {
-    Route::resource('users', 'ApiUserController');
+    Route::middleware('AccessToken')->group(function () {
+        Route::resource('users', 'ApiUserController');
+    });
+    Route::post('login', 'ApiUserController@login');
+    Route::post('register', 'ApiUserController@register');
 });

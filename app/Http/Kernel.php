@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
             'CORSMiddleware',
             'JsonifyMiddleware',
             'ValidateJsonFormatMiddleware',
-            'SetLocaleMiddleware'
+            'SetLocaleMiddleware',
         ],
     ];
 
@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'JsonifyMiddleware' => \App\Http\Middleware\JsonifyMiddleware::class,
         'ValidateJsonFormatMiddleware' => \App\Http\Middleware\ValidateJsonFormatMiddleware::class,
         'SetLocaleMiddleware' => \App\Http\Middleware\SetLocaleMiddleware::class,
+        'AccessToken' => \App\Http\Middleware\AccessToken::class,
 
     ];
 

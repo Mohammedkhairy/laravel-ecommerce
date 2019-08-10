@@ -1,13 +1,5 @@
 @extends('backend.layout.app')
 
-@php
-$title = 'Users';
-$Model_name = 'User';
-$page_title = 'Create '.$Model_name;
-$tableDescription = "Here You Can Add ".$Model_name;
-$button_name=" Add ".$Model_name;
-@endphp
-
 @section('title')
     {{$page_title}}
 @endsection
