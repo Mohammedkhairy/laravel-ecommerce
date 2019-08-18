@@ -2,20 +2,13 @@
 
 namespace App\Http\Controllers\BackEnd;
 
-use App\Http\Requests\BackEnd\Users\usersStoreRequest;
-use App\Http\Requests\BackEnd\Users\usersUpdateRequest;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\BackEnd\Tags\tagRequest;
+use App\Http\Controllers\BackEnd\BackEndController;
+use App\Models\Tag;
 
-class UserController extends BackEndController
+class TagsController extends BackEndController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function __construct(User $model)
+    public function __construct(Tag $model)
     {
         parent::__construct($model);
     }
@@ -23,7 +16,7 @@ class UserController extends BackEndController
     protected function filters($rows)
     {
         $conditions = [];
-        $availableFilter = ['name', 'email', 'created_at'];
+        $availableFilter = ['name'];
         foreach (request()->toArray() as $key => $value) {
             if (in_array($key, $availableFilter)) {
                 $conditions[$key] = $value;
@@ -37,12 +30,11 @@ class UserController extends BackEndController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(usersStoreRequest $request)
+    public function store(tagRequest $request)
     {
         $data = $request->all();
-        $data['password'] = Hash::make($data['password']);
         $row = $this->model->create($data);
-        return redirect()->route('users.index');
+        return redirect()->route('tags.index');
     }
 
     /**
@@ -52,15 +44,10 @@ class UserController extends BackEndController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(usersUpdateRequest $request, $id)
+    public function update(tagRequest $request, $id)
     {
         $row = $this->model->findOrFail($id);
         $data = $request->all();
-        if ($request->has($request->password) && !empty($request->password)) {
-            $data['password'] = Hash::make($data['password']);
-        } else {
-            unset($data['password']);
-        }
         $row->update($data);
         return redirect()->back();
     }

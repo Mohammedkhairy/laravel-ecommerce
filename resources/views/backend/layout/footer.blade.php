@@ -3,7 +3,7 @@
           <nav class="float-left">
             <ul>
               <li>
-                <a href="https://www.creative-tim.com">
+                <a href="/admin/home">
                   Creative Tim
                 </a>
               </li>
@@ -14,7 +14,7 @@
             <script>
               document.write(new Date().getFullYear())
             </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://www.creative-tim.com" target="_blank">Creative Tim</a> for a better web.
+            <a href="http://know-me.000webhostapp.com" target="_blank">Mohamed Khairy</a> for a better web.
           </div>
           <!-- your footer here -->
         </div>

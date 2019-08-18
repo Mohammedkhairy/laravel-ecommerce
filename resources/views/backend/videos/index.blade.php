@@ -30,7 +30,12 @@
                             <tr>
                                 <th> Id </th>
                                 <th> Name </th>
-                                <th> Email </th>
+                                <th> User </th>
+                                <th> Category </th>
+                                <th> Publish </th>
+                                <th> Meta Keywords </th>
+                                <th> Description </th>
+                                <!-- <th> Meta Description </th> -->
                                 <th> Created At </th>
                                 <th> Control </th>
                             </tr>
@@ -40,7 +45,12 @@
                         <tr>
                             <td>{{$row->id}}</td>
                             <td>{{$row->name}}</td>
-                            <td>{{$row->email}}</td>
+                            <td>{{$row->user->name}}</td>
+                            <td>{{$row->category->name}}</td>
+                            <td>@if($row->published == 1) Published @else Hidden @endif</td>
+                            <td>{{$row->meta_keywords}}</td>
+                            <td>{{$row->des}}</td>
+                            <!-- <td>{{$row->meta_des}}</td> -->
                               <td>{{\Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</td>
                             <td class="td-actions ">
                                 @include('backend.shared.buttons.edit')

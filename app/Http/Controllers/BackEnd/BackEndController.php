@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Controllers\Controller;
+use Storage;
 
 class BackEndController extends Controller
 {
@@ -25,15 +26,19 @@ class BackEndController extends Controller
 
     public function index()
     {
-        $title = $this->getViewFolderNamePlural($this->model);
+        $routeName = $title = $modelName = $this->getViewFolderNamePlural($this->model);
         $Model_name = $this->getViewFolderNameSingle($this->model);
-        $page_title = $title . ' Control';
+        $page_title = $title . ' control';
         $tableDescription = "Here You Can Add / Edit / Delete " . $title;
-        $modelName = $this->getViewFolderNamePlural($this->model);
-        $rows = $this->model;
-        $rows = $this->filters($rows);
-        ${$this->getViewFolderNamePlural($this->model)} = $rows->paginate(10);
-        return view('backend.' . $modelName . '.index', compact($modelName, 'title', 'page_title', 'tableDescription', 'Model_name'));
+        $rows = $this->filters($this->model);
+        $with = $this->with();
+        if (!empty($with)) {
+            $rows = $rows->with($with);
+        }
+        $rows = $rows->paginate(10);
+        return view('backend.' . $modelName . '.index',
+            compact('rows', 'routeName', 'title', 'page_title', 'tableDescription', 'Model_name')
+        );
     }
 
     /**
@@ -43,14 +48,15 @@ class BackEndController extends Controller
      */
     public function create()
     {
-        $title = $this->getViewFolderNamePlural($this->model);
+        $folderName = $routeName = $title = $this->getViewFolderNamePlural($this->model);
         $Model_name = $this->getViewFolderNameSingle($this->model);
-        $page_title = 'Create ' . $title;
+        $page_title = 'create ' . $title;
         $button_name = " Add " . $Model_name;
         $tableDescription = "Here You Can  Create " . $title;
-        return view('backend.' . $this->getViewFolderNamePlural($this->model) . '.create',
-            compact('title', 'page_title', 'tableDescription', 'Model_name', 'button_name')
-        );
+        $append = $this->append();
+        return view('backend.' . $folderName . '.create',
+            compact('folderName', 'title', 'routeName', 'page_title', 'tableDescription', 'Model_name', 'button_name')
+        )->with($append);
     }
 
     /**
@@ -61,15 +67,16 @@ class BackEndController extends Controller
      */
     public function edit($id)
     {
-        $title = $this->getViewFolderNamePlural($this->model);
+        $folderName = $routeName = $title = $this->getViewFolderNamePlural($this->model);
         $Model_name = $this->getViewFolderNameSingle($this->model);
-        $page_title = 'Edit ' . $title;
+        $page_title = 'edit ' . $title;
         $button_name = " update " . $Model_name;
         $tableDescription = "Here You Can  Edit " . $title;
-        $modelName = $this->getViewFolderNamePlural($this->model);
-        ${$this->getViewFolderNameSingle($this->model)} = $this->model::findOrFail($id);
-        return view('backend.' . $modelName . '.edit',
-            compact($this->getViewFolderNameSingle($this->model), 'button_name', 'title', 'page_title', 'tableDescription', 'Model_name'));
+        $row = $this->model::findOrFail($id);
+        $append = $this->append();
+        return view('backend.' . $folderName . '.edit',
+            compact('folderName', 'row', 'routeName', 'button_name', 'title', 'page_title', 'tableDescription', 'Model_name')
+        )->with($append);
 
     }
 
@@ -81,7 +88,29 @@ class BackEndController extends Controller
      */
     public function destroy($id)
     {
-        $this->model::findOrFail($id)->delete();
+        $row = $this->model::findOrFail($id);
+
+        if (isset($row->image) && !empty($row->image)) {
+        }
+
+        $deleteFiles = $this->delete_files();
+        if (!empty($deleteFiles)) {
+            foreach ($deleteFiles as $file) {
+                if (!empty($row->$file)) {
+                    Storage::delete($row->$file);
+                }
+            }
+        }
+
+        $relations = $this->delete_relation();
+        if (!empty($relations)) {
+            foreach ($relations as $relation) {
+                $row->$relation()->detach();
+            }
+        }
+
+        $row->delete();
+
         return redirect()->back();
 
     }
@@ -89,5 +118,25 @@ class BackEndController extends Controller
     protected function filters($rows)
     {
         return $rows;
+    }
+
+    protected function delete_files()
+    {
+        return [];
+    }
+
+    protected function delete_relation()
+    {
+        return [];
+    }
+
+    protected function with()
+    {
+        return [];
+    }
+
+    protected function append()
+    {
+        return [];
     }
 }
