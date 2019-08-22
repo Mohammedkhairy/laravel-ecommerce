@@ -7,7 +7,6 @@ use App\Http\Controllers\Api\Traits\TraitHelperMethods;
 use App\Http\Requests\Api\Users\loginRequest;
 use App\Http\Requests\BackEnd\Users\usersStoreRequest;
 use App\Http\Requests\BackEnd\Users\usersUpdateRequest;
-use Illuminate\Http\Request;
 use App\Http\Resources\userResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -31,32 +30,38 @@ class ApiUserController extends ApiController
         } else {
             unset($data['password']);
         }
-        $data['token'] = $model::generateApiToken();
         $user->update($data);
         return $this->successJson(new $resource($user));
     }
 
-    function register(usersStoreRequest $request)
+    public function register(usersStoreRequest $request)
     {
         $data = $request->all();
         $data['password'] = Hash::make($data['password']);
-        $data['token'] = User::generateApiToken();
         $user = User::create($data);
         return $this->successJson($user);
     }
 
-    function login(loginRequest $request)
+    public function login(loginRequest $request)
     {
-        $email = $request->email;
-        $password = $request->password;
-        $user = User::where('email', $email)->first();
-        if ($user && Hash::check($password, $user->password)) {
-            $user->token = User::generateApiToken();
-            $user->update(['token' => $user->token]);
+        $credentials = $request->only('email', 'password');
+        $user = User::where('email', $credentials['email'])->first();
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            $user->token = $this->generateToken($credentials);
             return $this->successJson($user);
         }
         return $this->failToLoginJson();
 
     }
 
+    
+    public function refresh()
+    {
+        return $this->refreshToken();
+    }
+
+    public function logout()
+    {
+        return $this->invalidateToken();
+    }
 }

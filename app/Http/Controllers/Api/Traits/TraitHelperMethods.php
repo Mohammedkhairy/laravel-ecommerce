@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Traits;
 
 use Illuminate\Http\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 trait TraitHelperMethods
 {
@@ -53,6 +54,29 @@ trait TraitHelperMethods
         return $this->successJson(new $resource($data));
     }
 
+    protected function generateToken($credentials)
+    {
+        $ApiToken = JWTAuth::attempt($credentials);
+        return $ApiToken;
+
+    }
+
+    protected function refreshToken()
+    {
+        $ApiToken = JWTAuth::getToken();
+        $ApiToken = JWTAuth::refresh($ApiToken);
+        return $this->successJson(['token' => $ApiToken]);
+
+    }
+
+    protected function invalidateToken()
+    {
+        $ApiToken = JWTAuth::getToken();
+        $ApiToken = JWTAuth::invalidate($ApiToken);
+        return $this->successJson(['message' => 'Logout Successfully .. ']);
+
+    }
+
     protected function successJson($data)
     {
         return response()->json($data, 200);
@@ -61,6 +85,11 @@ trait TraitHelperMethods
     protected function failJson()
     {
         return response()->json(['message' => "Not Found"], 404);
+    }
+
+    protected function processNotDone()
+    {
+        return response()->json(['message' => "Process not done , please try again."], 422);
     }
 
     protected function failToLoginJson()

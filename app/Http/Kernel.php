@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'ValidateJsonFormatMiddleware' => \App\Http\Middleware\ValidateJsonFormatMiddleware::class,
         'SetLocaleMiddleware' => \App\Http\Middleware\SetLocaleMiddleware::class,
         'AccessToken' => \App\Http\Middleware\AccessToken::class,
+        'jwt' => \App\Http\Middleware\JWT::class,
 
     ];
 
