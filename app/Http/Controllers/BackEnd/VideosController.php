@@ -35,22 +35,26 @@ class VideosController extends BackEndController
 
     protected function append()
     {
+        //return in general
         $array = [
             'categories' => Category::get(),
             'skills' => Skill::get(),
             'tags' => Tag::get(),
             'selectedSkills' => [],
             'selectedTags' => [],
+            'comments' => []
         ];
 
+        //return if in edit only
         if (request()->route()->parameter('video')) {
             $array['selectedSkills'] = $this->model->find(request()->route()->parameter('video'))
                 ->skills()->pluck('skills.id')->toArray();
-        }
-
-        if (request()->route()->parameter('video')) {
+       
             $array['selectedTags'] = $this->model->find(request()->route()->parameter('video'))
                 ->tags()->pluck('tags.id')->toArray();
+
+            $array['comments'] = $this->model->find(request()->route()->parameter('video'))
+                ->comments()->with('user')->get();
         }
         return $array;
     }

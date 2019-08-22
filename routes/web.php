@@ -13,7 +13,8 @@ Route::namespace ('BackEnd')->prefix('admin')->group(function () {
     Route::resource('tags' , 'TagsController');
     Route::resource('pages' , 'PagesController');
     Route::resource('videos' , 'VideosController');
-    
+    Route::resource('comments' , 'CommentsController');
+
 });
 
 Auth::routes();

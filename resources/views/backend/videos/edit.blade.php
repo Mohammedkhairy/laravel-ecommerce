@@ -33,4 +33,17 @@
 
 @endcomponent
 
+
+@component('backend.shared.edit' , ['page_title' => 'Comments' , 'tableDescription' => 'Comments Table' ])
+
+            @include('backend.comments.index')
+            @slot('video')
+                @include('backend.comments.create')
+            @endslot
+
+@endcomponent
+
+
+
+
 @endsection

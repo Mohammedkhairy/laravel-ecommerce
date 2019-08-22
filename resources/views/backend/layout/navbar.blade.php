@@ -11,11 +11,21 @@
           </button>
           <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
+            
               <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0)">
                   <i class="material-icons">notifications</i>
                   <p class="d-lg-none d-md-block">
                     Notifications
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
+              <form action="/logout" method="POST" id="logoutForm">@csrf</form>
+                <a class="nav-link" onclick="$('#logoutForm').submit()" href="#">
+                  <i class="material-icons">logout</i>
+                  <p class="d-lg-none d-md-block">
+                    Logout
                   </p>
                 </a>
               </li>
