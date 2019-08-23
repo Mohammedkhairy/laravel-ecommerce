@@ -1,6 +1,7 @@
 <?php
 
 Route::get('/', function () {
+    // \Artisan::call('websockets:serve');
     return view('welcome');
 });
 Route::get('/home', 'HomeController@index');
