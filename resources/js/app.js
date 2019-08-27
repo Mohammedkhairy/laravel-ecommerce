@@ -83,3 +83,30 @@ window.Echo.join(`online`)
         }
         $("#user-"+user.id).remove();
     });
+
+    window.Echo.channel(`chat-message`).listen('App\\Events\\MessageDelivered', (data) => {
+        console.log(data);
+    }, (e) => {
+        console.log(e);
+    });
+
+    $('#chat-text').keypress(function(e){
+        if(e.which == 13){
+            e.preventDefault();
+
+            let message = $("#chat-text").val();
+            let url = $(this).data('url');
+            let token = $("meta[name=csrf-token]").attr('content');
+            let data = {'_token':token,message:message}
+
+            $.ajax({
+                url: url,
+                method:'post',
+                data:data,
+            });
+        }
+        
+    });
+
+ 
+    

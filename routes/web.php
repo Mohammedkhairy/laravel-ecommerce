@@ -6,6 +6,7 @@ Route::get('/', function () {
 });
 Route::get('/home', 'HomeController@index');
 Route::get('/messages', 'HomeController@message');
+Route::post('/store/message', 'HomeController@store')->name('messages.store');
 
 Route::namespace ('BackEnd')->prefix('admin')->group(function () {
 

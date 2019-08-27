@@ -22,3 +22,4 @@ Broadcast::channel('chat', function ($user) {
 Broadcast::channel('online', function ($user) {
     return $user;
 });
+

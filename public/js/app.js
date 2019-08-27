@@ -62269,6 +62269,28 @@ window.Echo.join("online").here(function (users) {
 
   $("#user-" + user.id).remove();
 });
+window.Echo.channel("chat-message").listen('App\\Events\\MessageDelivered', function (data) {
+  console.log(data);
+}, function (e) {
+  console.log(e);
+});
+$('#chat-text').keypress(function (e) {
+  if (e.which == 13) {
+    e.preventDefault();
+    var message = $("#chat-text").val();
+    var url = $(this).data('url');
+    var token = $("meta[name=csrf-token]").attr('content');
+    var data = {
+      '_token': token,
+      message: message
+    };
+    $.ajax({
+      url: url,
+      method: 'post',
+      data: data
+    });
+  }
+});
 
 /***/ }),
 

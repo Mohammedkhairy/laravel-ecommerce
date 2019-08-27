@@ -15,16 +15,13 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('sender_id');
-            $table->integer('receiver_id');
-            $table->string('subject');
+            $table->unsignedInteger('user_id');
             $table->text('message');
-            $table->boolean('read')->default(0);
             $table->timestamps();
+        });
 
-            $table->index('sender_id');
-            $table->index('receiver_id');
-            $table->index(['sender_id','read']);
+        Schema::table('messages', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
