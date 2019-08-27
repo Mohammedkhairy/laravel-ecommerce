@@ -44,3 +44,42 @@ Vue.component(
 const app = new Vue({
     el: '#app',
 });
+
+import Echo from "laravel-echo"
+
+window.io = require('socket.io-client');
+
+window.Echo = new Echo({
+    broadcaster: 'socket.io',
+    host: window.location.hostname + ':6001'
+});
+
+let onlineUsers = 0;
+window.Echo.join(`online`)
+    .here((users) => {
+        onlineUsers = users.length;
+        if(onlineUsers > 1){
+            $("#noUser").hide();
+        }
+        let userId = $('meta[name=user_id]').attr('content');
+        users.forEach(user => {
+
+            if(userId == user.id){
+                return;
+            }
+
+            $("#online-user").append(`<li id="user-${user.id}" class="list-group-item"><span class="icon icon-circle text-success"></span> ${user.name}</li>`);
+        });
+    })
+    .joining((user) => {
+        onlineUsers++;
+        $("#noUser").hide();
+        $("#online-user").append(`<li id="user-${user.id}" class="list-group-item"> <span class="icon icon-circle text-success"></span> ${user.name}</li>`);
+    })
+    .leaving((user) => {
+        onlineUsers--;
+        if(onlineUsers == 1){
+            $("#noUser").show();
+        }
+        $("#user-"+user.id).remove();
+    });

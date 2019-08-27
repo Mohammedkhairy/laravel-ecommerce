@@ -14,8 +14,7 @@
                         </div>
                     @endif
 
-                    <div id="app">
-                        <example-component></example-component>
+                    <div>
                         <passport-clients></passport-clients>
                         <passport-authorized-clients></passport-authorized-clients>
                         <passport-personal-access-tokens></passport-personal-access-tokens>

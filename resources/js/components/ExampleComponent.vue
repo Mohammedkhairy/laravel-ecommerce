@@ -6,7 +6,8 @@
                     <div class="card-header">Example Component</div>
 
                     <div class="card-body">
-                        I'm an example component.
+                        <ul class="list-group" id="online-user">                
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -17,17 +18,17 @@
 <script>
     export default {
         mounted() {
-            console.log('example mounted.')
-            Echo.join(`chat`)
-                .here((users) => {
-                    console.log(users);
-                })
-                .joining((user) => {
-                    console.log(`${user.name} joined`);
-                })
-                .leaving((user) => {
-                    console.log(`${user.name} leaved`);
-                });
+             console.log('example mounted.')
+            // Echo.join(`chat`)
+            //     .here((users) => {
+            //         console.log(users);
+            //     })
+            //     .joining((user) => {
+            //         console.log(`${user.name} joined`);
+            //     })
+            //     .leaving((user) => {
+            //         console.log(`${user.name} leaved`);
+            //     });
         }
     }
 </script>

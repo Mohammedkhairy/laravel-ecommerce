@@ -11,11 +11,15 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
+
+
   <link href="/assets/css/material-dashboard.css?v=2.1.0" rel="stylesheet" />
+
+
 </head>
 
-<body class="dark-edition">
-  <div class="wrapper ">
+<body class="dark-edition" >
+  <div class="wrapper " >
    @include('backend.layout.sidebar')
     <div class="main-panel">
       <!-- End Navbar -->

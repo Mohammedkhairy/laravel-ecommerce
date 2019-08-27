@@ -5,6 +5,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/home', 'HomeController@index');
+Route::get('/messages', 'HomeController@message');
 
 Route::namespace ('BackEnd')->prefix('admin')->group(function () {
 
@@ -16,6 +17,7 @@ Route::namespace ('BackEnd')->prefix('admin')->group(function () {
     Route::resource('pages' , 'PagesController');
     Route::resource('videos' , 'VideosController');
     Route::resource('comments' , 'CommentsController');
+    Route::resource('message', 'MessageController');
 
 });
 

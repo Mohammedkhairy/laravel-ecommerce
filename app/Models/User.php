@@ -40,6 +40,11 @@ class User extends Authenticatable implements JWTSubject
         'email_verified_at' => 'datetime',
     ];
 
+    public function getNameAttribute($val)
+    {
+        return ucfirst($val);
+    }
+
     public static function generateApiToken(): string
     {
         $str = date('YmdHis', strtotime('+1 week')) . '.' . Str::random(50);

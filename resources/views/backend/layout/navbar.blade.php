@@ -12,6 +12,14 @@
           <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
             
+            <li class="nav-item">
+                <a class="nav-link" href="/admin/message">
+                  <i class="material-icons">message</i>
+                  <p class="d-lg-none d-md-block">
+                    Messages
+                  </p>
+                </a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link" href="javascript:void(0)">
                   <i class="material-icons">notifications</i>
