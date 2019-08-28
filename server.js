@@ -1,16 +1,8 @@
 var app = require('express')();
-var http = require('http').createServer(app);
+var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var redis = require('redis');
 
-app.get('/', function(req, res){
-    res.send('<h1>Hello world</h1>');
-  });
-
-http.listen(8000, function(){
-  console.log('listening on *:3000');
-});
-
-io.on('connection' , function(socket){
-    console.log('ion on *:3000');
-
+http.listen(6000, function(){
+    console.log('Listening on Port 3000');
 });

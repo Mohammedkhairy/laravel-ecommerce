@@ -22,19 +22,6 @@ Route::namespace ('Api\Users')->group(function () {
 
 });
 
-Route::namespace ('Api\Chat')->group(function () {
-    Route::middleware([])->group(function () {
 
-        Route::apiResource('chat', 'ApiChatController');
-        Route::apiResource('message', 'ApiMessageController');
-        Route::post('user/notification', 'ApiMessageController@getUserNotification');
-        Route::post('user/messages', 'ApiMessageController@getUserMessages');
-        Route::post('user/message/{id}', 'ApiMessageController@getUserMessageById');
-        Route::post('user/send/message', 'ApiMessageController@getSentMessages');
-
-    });
-
-
-});
 
 

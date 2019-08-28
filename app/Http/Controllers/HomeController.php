@@ -39,7 +39,7 @@ class HomeController extends Controller
         $data = $request->all();
         $data['user_id'] = auth()->user()->id;
         $message = Message::create($data);
-        broadcast(new MessageDelivered($message));//->toOthers();
+        broadcast(new MessageDelivered($message))->toOthers();
         return $message;
     }
 }

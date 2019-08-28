@@ -1936,16 +1936,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    console.log('example mounted.'); // Echo.join(`chat`)
-    //     .here((users) => {
-    //         console.log(users);
-    //     })
-    //     .joining((user) => {
-    //         console.log(`${user.name} joined`);
-    //     })
-    //     .leaving((user) => {
-    //         console.log(`${user.name} leaved`);
-    //     });
+    console.log('example mounted.');
   }
 });
 
